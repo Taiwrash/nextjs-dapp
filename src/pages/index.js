@@ -27,11 +27,78 @@ export default function Home() {
 
   // Rest of the code...
   const CHAT_ABI = [
-    // Define the ABI for your chat smart contract here
-    // Example: ["function sendMessage(string _message) public"]
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "sender",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "internalType": "string",
+            "name": "content",
+            "type": "string"
+          }
+        ],
+        "name": "MessageSent",
+        "type": "event"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "string",
+            "name": "_content",
+            "type": "string"
+          }
+        ],
+        "name": "sendMessage",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "messageCount",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "name": "messages",
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "sender",
+            "type": "address"
+          },
+          {
+            "internalType": "string",
+            "name": "content",
+            "type": "string"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      }
   ];
   
-  const CHAT_CONTRACT_ADDRESS = 'YOUR_CHAT_CONTRACT_ADDRESS';
+  const CHAT_CONTRACT_ADDRESS = '0x5B38Da6a701c568545dCfcB03FcB875f56beddC4';
 
   const [chatMessages, setChatMessages] = useState([]);
 
@@ -76,7 +143,10 @@ const sendMessage = async () => {
       <h1>Celo Chat dApp Example</h1>
       <div>
         {chatMessages.map((msg, index) => (
-          <div key={index}>{msg}</div>
+          <div key={index}>
+            <p><b>Sender:</b> {msg.sender}</p>
+            <p><b>Content:</b> {msg.content}</p>
+          </div>
         ))}
       </div>
       <input type="text" value={message} onChange={(e) => setMessage(e.target.value)} />
